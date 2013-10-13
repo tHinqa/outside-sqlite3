@@ -2,7 +2,7 @@
 // See LICENCE file for permissions and restrictions.
 
 //Package sqlite3 provides API definitions for accessing the sqlite3 dll.
-//Vendor docymentation can be found at http://www.sqlite.org/c3ref/
+//Vendor documentation can be found at http://www.sqlite.org/c3ref/
 package sqlite3
 
 import (
@@ -258,7 +258,7 @@ var (
 	Open func(filename o.VString, db **Sqlite3) int
 
 	OpenV2 func(filename string, db **Sqlite3,
-		flags int, vfs string) int
+		flags OpenFlags, vfs string) int
 
 	UriParameter func(
 		filename string, param string) string
@@ -351,8 +351,7 @@ var (
 
 	ColumnInt func(_ *Stmt, col int) int
 
-	ColumnInt64 func(
-		_ *Stmt, col int) int64
+	ColumnInt64 func(_ *Stmt, col int) int64
 
 	ColumnText func(_ *Stmt, col int) o.VString
 
@@ -706,6 +705,31 @@ const (
 	TEXT
 	BLOB
 	NULL
+)
+
+type OpenFlags int
+
+const (
+	OPEN_READONLY OpenFlags = 1 << iota
+	OPEN_READWRITE
+	OPEN_CREATE
+	OPEN_DELETEONCLOSE
+	OPEN_EXCLUSIVE
+	OPEN_AUTOPROXY
+	OPEN_URI
+	OPEN_MEMORY
+	OPEN_MAIN_DB
+	OPEN_TEMP_DB
+	OPEN_TRANSIENT_DB
+	OPEN_MAIN_JOURNAL
+	OPEN_TEMP_JOURNAL
+	OPEN_SUBJOURNAL
+	OPEN_MASTER_JOURNAL
+	OPEN_NOMUTEX
+	OPEN_FULLMUTEX
+	OPEN_SHAREDCACHE
+	OPEN_PRIVATECACHE
+	OPEN_WAL
 )
 
 var dll = "Sqlite3.dll"
