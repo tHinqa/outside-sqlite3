@@ -6,19 +6,20 @@
 package sqlite3
 
 import (
-	o "github.com/tHinqa/outside"
+	"github.com/tHinqa/outside"
+	. "github.com/tHinqa/outside/types"
 )
 
 func init() {
-	o.AddDllApis(dll, false, apiList)
+	outside.AddDllApis(dll, false, apiList)
 }
 
 func UTF16() {
-	o.AddDllApis(dll, true, api16)
+	outside.AddDllApis(dll, true, api16)
 }
 
 func UTF8() {
-	o.AddDllApis(dll, false, api8)
+	outside.AddDllApis(dll, false, api8)
 }
 
 type (
@@ -193,9 +194,9 @@ var (
 
 	OSEnd func() int
 
-	Config func(int, ...o.VArg) int
+	Config func(int, ...VArg) int
 
-	DbConfig func(_ *Sqlite3, op int, _ ...o.VArg) int
+	DbConfig func(_ *Sqlite3, op int, _ ...VArg) int
 
 	ExtendedResultCodes func(_ *Sqlite3, onoff int) int
 
@@ -207,7 +208,7 @@ var (
 
 	Interrupt func(*Sqlite3)
 
-	Complete func(sql o.VString) int
+	Complete func(sql VString) int
 
 	BusyHandler func(
 		*Sqlite3, func(*Void, int) int, *Void) int
@@ -220,11 +221,11 @@ var (
 
 	FreeTable func(result **Char)
 
-	Mprintf func(*Char, ...o.VArg) string
+	Mprintf func(*Char, ...VArg) string
 
 	Vmprintf func(*Char, VaList) string
 
-	Snprintf func(int, string, string, ...o.VArg) string
+	Snprintf func(int, string, string, ...VArg) string
 
 	Vsnprintf func(int, string, string, VaList) string
 
@@ -255,7 +256,7 @@ var (
 	ProgressHandler func(
 		*Sqlite3, int, func(*Void) int, *Void)
 
-	Open func(filename o.VString, db **Sqlite3) int
+	Open func(filename VString, db **Sqlite3) int
 
 	OpenV2 func(filename string, db **Sqlite3,
 		flags OpenFlags, vfs string) int
@@ -273,7 +274,7 @@ var (
 
 	ExtendedErrcode func(db *Sqlite3) int
 
-	Errmsg func(*Sqlite3) o.VString
+	Errmsg func(*Sqlite3) VString
 
 	Errstr func(int) string
 
@@ -311,7 +312,7 @@ var (
 	BindNull func(*Stmt, int) int
 
 	BindText func(_ *Stmt,
-		_ int, _ o.VString, n int, _ func(*Void)) int
+		_ int, _ VString, n int, _ func(*Void)) int
 
 	BindValue func(
 		*Stmt, int, *Value) int
@@ -329,15 +330,15 @@ var (
 
 	ColumnCount func(pStmt *Stmt) int
 
-	ColumnName func(_ *Stmt, N int) o.VString
+	ColumnName func(_ *Stmt, N int) VString
 
-	ColumnDatabaseName func(*Stmt, int) o.VString
+	ColumnDatabaseName func(*Stmt, int) VString
 
-	ColumnTableName func(*Stmt, int) o.VString
+	ColumnTableName func(*Stmt, int) VString
 
-	ColumnOriginName func(*Stmt, int) o.VString
+	ColumnOriginName func(*Stmt, int) VString
 
-	ColumnDecltype func(*Stmt, int) o.VString
+	ColumnDecltype func(*Stmt, int) VString
 
 	Step func(*Stmt) int
 
@@ -353,7 +354,7 @@ var (
 
 	ColumnInt64 func(_ *Stmt, col int) int64
 
-	ColumnText func(_ *Stmt, col int) o.VString
+	ColumnText func(_ *Stmt, col int) VString
 
 	ColumnType func(_ *Stmt, col int) int
 
@@ -365,7 +366,7 @@ var (
 	Reset func(stmt *Stmt) int
 
 	CreateFunction func(db *Sqlite3,
-		functionName o.VString, args, textRep int, app *Void,
+		functionName VString, args, textRep int, app *Void,
 		fnc func(*Context, int, **Value),
 		step func(*Context, int, **Value),
 		final func(*Context)) int
@@ -407,7 +408,7 @@ var (
 
 	ValueInt64 func(*Value) int64
 
-	ValueText func(*Value) o.VString
+	ValueText func(*Value) VString
 
 	ValueText16le func(*Value) *Void
 
@@ -434,7 +435,7 @@ var (
 
 	ResultDouble func(*Context, float64)
 
-	ResultError func(*Context, o.VString, int)
+	ResultError func(*Context, VString, int)
 
 	ResultErrorToobig func(*Context)
 
@@ -449,7 +450,7 @@ var (
 	ResultNull func(*Context)
 
 	ResultText func(
-		*Context, o.VString, int, func(*Void))
+		*Context, VString, int, func(*Void))
 
 	ResultText16le func(
 		*Context, *Void, int, func(*Void))
@@ -463,7 +464,7 @@ var (
 	ResultZeroblob func(_ *Context, n int)
 
 	CreateCollation func(
-		_ *Sqlite3, name o.VString, textRep int, arg *Void,
+		_ *Sqlite3, name VString, textRep int, arg *Void,
 		compare func(*Void, int, *Void, int, *Void) int) int
 
 	CreateCollationV2 func(
@@ -472,7 +473,7 @@ var (
 		destroy func(*Void)) int
 
 	CollationNeeded func(*Sqlite3, *Void,
-		func(_ *Void, _ *Sqlite3, textRep int, _ o.VString)) int
+		func(_ *Void, _ *Sqlite3, textRep int, _ VString)) int
 
 	Sleep func(int) int
 
@@ -571,7 +572,7 @@ var (
 	FileControl func(
 		_ *Sqlite3, dbName string, op int, _ *Void) int
 
-	TestControl func(op int, _ ...o.VArg) int
+	TestControl func(op int, _ ...VArg) int
 
 	Status func(
 		op int, current, highwater *int, resetFlag int) int
@@ -624,7 +625,7 @@ var (
 
 	Strglob func(glob string, str string) int
 
-	Log func(errCode int, format string, v ...o.VArg)
+	Log func(errCode int, format string, v ...VArg)
 
 	WalHook func(
 		*Sqlite3, func(
@@ -637,7 +638,7 @@ var (
 	WalCheckpointV2 func(db *Sqlite3,
 		dbName string, mode int, nLog, nCkpt *int) int
 
-	VtabConfig func(_ *Sqlite3, op int, v ...o.VArg) int
+	VtabConfig func(_ *Sqlite3, op int, v ...VArg) int
 
 	VtabOnConflict func(*Sqlite3) int
 
@@ -734,7 +735,7 @@ const (
 
 var dll = "Sqlite3.dll"
 
-var apiList = o.Apis{
+var apiList = outside.Apis{
 	{"sqlite3_aggregate_context", &AggregateContext},
 	{"sqlite3_aggregate_count", &AggregateCount},
 	{"sqlite3_auto_extension", &AutoExtension},
@@ -910,7 +911,7 @@ var apiList = o.Apis{
 	// Undocumented {"sqlite3_win32_write_debug", &Win32WriteDebug},
 }
 
-var api16 = o.Apis{
+var api16 = outside.Apis{
 	{"sqlite3_bind_text16", &BindText},
 	{"sqlite3_collation_needed16", &CollationNeeded},
 	{"sqlite3_column_bytes16", &ColumnBytes},
@@ -931,7 +932,7 @@ var api16 = o.Apis{
 	{"sqlite3_value_text16", &ValueText},
 }
 
-var api8 = o.Apis{
+var api8 = outside.Apis{
 	{"sqlite3_bind_text", &BindText},
 	{"sqlite3_collation_needed", &CollationNeeded},
 	{"sqlite3_column_bytes", &ColumnBytes},
