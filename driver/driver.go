@@ -14,6 +14,7 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	o "github.com/tHinqa/outside"
+	. "github.com/tHinqa/outside/types"
 	sqlite3 "github.com/tHinqa/outside-sqlite3"
 	"io"
 	"strings"
@@ -164,7 +165,7 @@ func (s *Stmt) bind(args []driver.Value) (err error) {
 			case nil:
 				ret = sqlite3.BindNull(s.stmt, n)
 			case string:
-				ret = sqlite3.BindText(s.stmt, n, o.VString(v), len(v), nil)
+				ret = sqlite3.BindText(s.stmt, n, VString(v), len(v), nil)
 			case int:
 				ret = sqlite3.BindInt64(s.stmt, n, int64(v))
 			case int64:
@@ -193,7 +194,7 @@ func (s *Stmt) bind(args []driver.Value) (err error) {
 				ret = sqlite3.BindBlob(s.stmt, n, p, len(v), nil)
 			case time.Time:
 				b := v.UTC().Format(TimestampFormats[0])
-				ret = sqlite3.BindText(s.stmt, n, o.VString(b), len(b), nil)
+				ret = sqlite3.BindText(s.stmt, n, VString(b), len(b), nil)
 			}
 			if ret != sqlite3.OK {
 				return errNum(ret)
@@ -284,7 +285,7 @@ func (rs *Rows) Next(dest []driver.Value) error {
 				dest[i] = val
 			}
 		case sqlite3.FLOAT:
-			dest[i] = float64(sqlite3.ColumnDouble(rs.s.stmt, i))
+			dest[i] = sqlite3.ColumnDouble(rs.s.stmt, i)
 		case sqlite3.BLOB:
 			p := sqlite3.ColumnBlob(rs.s.stmt, i)
 			n := sqlite3.ColumnBytes(rs.s.stmt, i)

@@ -136,8 +136,7 @@ func (db *DB) now() string {
 }
 
 func makeBench() {
-	// if _, err := db.Exec("create table bench (n varchar(32), i integer, d double, s varchar(32), t datetime)"); err != nil {
-	if _, err := db.Exec("create table bench (n varchar(32), i integer, d integer, s varchar(32), t datetime)"); err != nil {
+	if _, err := db.Exec("create table bench (n varchar(32), i integer, d double, s varchar(32), t datetime)"); err != nil {
 		panic(err)
 	}
 	st, err := db.Prepare("insert into bench values (?, ?, ?, ?, ?)")
@@ -146,8 +145,7 @@ func makeBench() {
 	}
 	defer st.Close()
 	for i := 0; i < 100; i++ {
-		// if _, err = st.Exec(nil, i, float64(i), fmt.Sprintf("%d", i), time.Now()); err != nil {
-		if _, err = st.Exec(nil, i, i, fmt.Sprintf("%d", i), time.Now()); err != nil {
+		if _, err = st.Exec(nil, i, float64(i), fmt.Sprintf("%d", i), time.Now()); err != nil {
 			panic(err)
 		}
 	}
@@ -288,8 +286,7 @@ func TestPreparedStmt(t *testing.T) {
 			for j := 0; j < 10; j++ {
 				count := 0
 				if err := sel.QueryRow().Scan(&count); err != nil && err != sql.ErrNoRows {
-					t.Errorf("Query: %v %v", err, count)
-					// t.Errorf("Query: %v", err)
+					t.Errorf("Query: %v", err)
 					return
 				}
 				if _, err := ins.Exec(rand.Intn(100)); err != nil {
@@ -321,11 +318,10 @@ func BenchmarkQuery(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		var n sql.NullString
 		var i int
-		var f int //float64
+		var f float64
 		var s string
 		//		var t time.Time
-		// if err := db.QueryRow("select null, 1, 1.1, 'foo'").Scan(&n, &i, &f, &s); err != nil {
-		if err := db.QueryRow("select null, 1, 1, 'foo'").Scan(&n, &i, &f, &s); err != nil {
+		if err := db.QueryRow("select null, 1, 1.1, 'foo'").Scan(&n, &i, &f, &s); err != nil {
 			panic(err)
 		}
 	}
@@ -335,11 +331,10 @@ func BenchmarkParams(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		var n sql.NullString
 		var i int
-		var f int //float64
+		var f float64
 		var s string
 		//		var t time.Time
-		// if err := db.QueryRow("select ?, ?, ?, ?", nil, 1, 1.1, "foo").Scan(&n, &i, &f, &s); err != nil {
-		if err := db.QueryRow("select ?, ?, ?, ?", nil, 1, 1, "foo").Scan(&n, &i, &f, &s); err != nil {
+		if err := db.QueryRow("select ?, ?, ?, ?", nil, 1, 1.1, "foo").Scan(&n, &i, &f, &s); err != nil {
 			panic(err)
 		}
 	}
@@ -355,11 +350,10 @@ func BenchmarkStmt(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		var n sql.NullString
 		var i int
-		var f int //float64
+		var f float64
 		var s string
 		//		var t time.Time
-		// if err := st.QueryRow(nil, 1, 1.1, "foo").Scan(&n, &i, &f, &s); err != nil {
-		if err := st.QueryRow(nil, 1, 1, "foo").Scan(&n, &i, &f, &s); err != nil {
+		if err := st.QueryRow(nil, 1, 1.1, "foo").Scan(&n, &i, &f, &s); err != nil {
 			panic(err)
 		}
 	}
@@ -371,7 +365,7 @@ func BenchmarkRows(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		var n sql.NullString
 		var i int
-		var f int //float64
+		var f float64
 		var s string
 		var t time.Time
 		r, err := db.Query("select * from bench")
@@ -401,7 +395,7 @@ func BenchmarkStmtRows(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		var n sql.NullString
 		var i int
-		var f int //float64
+		var f float64
 		var s string
 		var t time.Time
 		r, err := st.Query()

@@ -393,10 +393,7 @@ var (
 
 	ThreadCleanup func()
 
-	MemoryAlarm func(
-		func(*Void, int64, int),
-		*Void,
-		int64) int
+	MemoryAlarm func(func(*Void, int64, int), *Void, int64) int
 
 	ValueBlob func(*Value) *Void
 
@@ -427,11 +424,9 @@ var (
 
 	GetAuxdata func(_ *Context, N int) *Void
 
-	SetAuxdata func(
-		_ *Context, N int, _ *Void, _ func(*Void))
+	SetAuxdata func(_ *Context, N int, _ *Void, _ func(*Void))
 
-	ResultBlob func(
-		*Context, *Void, int, func(*Void))
+	ResultBlob func(*Context, *Void, int, func(*Void))
 
 	ResultDouble func(*Context, float64)
 
@@ -449,17 +444,13 @@ var (
 
 	ResultNull func(*Context)
 
-	ResultText func(
-		*Context, VString, int, func(*Void))
+	ResultText func(*Context, VString, int, func(*Void))
 
-	ResultText16le func(
-		*Context, *Void, int, func(*Void))
+	ResultText16le func(*Context, *Void, int, func(*Void))
 
-	ResultText16be func(
-		*Context, *Void, int, func(*Void))
+	ResultText16be func(*Context, *Void, int, func(*Void))
 
-	ResultValue func(
-		*Context, *Value)
+	ResultValue func(*Context, *Value)
 
 	ResultZeroblob func(_ *Context, n int)
 
@@ -485,17 +476,14 @@ var (
 
 	DbReadonly func(db *Sqlite3, dbName string) int
 
-	NextStmt func(
-		db *Sqlite3, stmt *Stmt) *Stmt
+	NextStmt func(db *Sqlite3, stmt *Stmt) *Stmt
 
-	CommitHook func(
-		*Sqlite3, func(*Void) int, *Void) *Void
+	CommitHook func(*Sqlite3, func(*Void) int, *Void) *Void
 
 	RollbackHook func(*Sqlite3, func(*Void), *Void) *Void
 
 	UpdateHook func(*Sqlite3,
-		func(*Void, int, string, string, int64),
-		*Void) *Void
+		func(*Void, int, string, string, int64), *Void) *Void
 
 	EnableSharedCache func(int) int
 
@@ -580,8 +568,7 @@ var (
 	DbStatus func(
 		_ *Sqlite3, op int, cur, hiwtr *int, resetFlg int) int
 
-	StmtStatus func(
-		_ *Stmt, op int, resetFlg int) int
+	StmtStatus func(_ *Stmt, op int, resetFlg int) int
 
 	Close func(*Sqlite3) int
 
@@ -602,21 +589,15 @@ var (
 
 	CompileoptionGet func(n int) string
 
-	BackupStep func(
-		p *Backup,
-		nPage int) int
+	BackupStep func(p *Backup, nPage int) int
 
-	BackupFinish func(
-		p *Backup) int
+	BackupFinish func(p *Backup) int
 
-	BackupRemaining func(
-		p *Backup) int
+	BackupRemaining func(p *Backup) int
 
-	BackupPagecount func(
-		p *Backup) int
+	BackupPagecount func(p *Backup) int
 
-	UnlockNotify func(
-		pBlocked *Sqlite3,
+	UnlockNotify func(pBlocked *Sqlite3,
 		notify func(arg **Void, nArg int), notifyArg *Void) int
 
 	Stricmp func(string, string) int
