@@ -84,7 +84,7 @@ type (
 	Module struct {
 		Version int
 		Create  func(_ *Sqlite3, aux *Void, argc int,
-			argv **Char, ppVTab **Vtab, _ **Char) int
+			argv **Char, vTab **Vtab, _ **Char) int
 		Connect func(_ *Sqlite3, aux *Void, argc int,
 			argv **Char, vTab **Vtab, _ **Char) int
 		BestIndex  func(v *Vtab, _ *IndexInfo) int
@@ -171,7 +171,7 @@ type (
 		ShmBarrier func(*File)
 		ShmUnmap   func(_ *File, deleteFlag int) int
 		Fetch      func(
-			_ *File, ofst int64, amt int, pp **Void) int
+			_ *File, ofst int64, amt int, p **Void) int
 		Unfetch func(
 			_ *File, ofst int64, p *Void) int
 	}
@@ -216,8 +216,7 @@ var (
 	BusyTimeout func(_ *Sqlite3, ms int) int
 
 	GetTable func(db *Sqlite3, sql string,
-		result ***Char, row *int, column *int,
-		errmsg **Char) int
+		result ***Char, row *int, column *int, errmsg **Char) int
 
 	FreeTable func(result **Char)
 
@@ -245,30 +244,24 @@ var (
 		auth func(*Void, int, string, string, string, string) int,
 		userData *Void) int
 
-	Trace func(_ *Sqlite3,
-		trace func(*Void, string),
-		_ *Void) *Void
+	Trace func(
+		_ *Sqlite3, trace func(*Void, string), _ *Void) *Void
 
 	Profile func(_ *Sqlite3,
-		profile func(*Void, string, uint64),
-		_ *Void) *Void
+		profile func(*Void, string, uint64), _ *Void) *Void
 
-	ProgressHandler func(
-		*Sqlite3, int, func(*Void) int, *Void)
+	ProgressHandler func(*Sqlite3, int, func(*Void) int, *Void)
 
 	Open func(filename VString, db **Sqlite3) int
 
 	OpenV2 func(filename string, db **Sqlite3,
 		flags OpenFlags, vfs string) int
 
-	UriParameter func(
-		filename string, param string) string
+	UriParameter func(filename string, param string) string
 
-	UriBoolean func(
-		file string, param string, deflt int) int
+	UriBoolean func(file string, param string, deflt int) int
 
-	UriInt64 func(
-		string, string, int64) int64
+	UriInt64 func(string, string, int64) int64
 
 	Errcode func(db *Sqlite3) int
 
@@ -298,24 +291,21 @@ var (
 
 	StmtBusy func(*Stmt) int
 
-	BindBlob func(_ *Stmt,
-		_ int, _ *byte, n int, _ func(*Void)) int
+	BindBlob func(
+		_ *Stmt, _ int, _ *byte, n int, _ func(*Void)) int
 
-	BindDouble func(
-		*Stmt, int, float64) int
+	BindDouble func(*Stmt, int, float64) int
 
-	BindInt func(
-		*Stmt, int, int) int
+	BindInt func(*Stmt, int, int) int
 
 	BindInt64 func(*Stmt, int, int64) int
 
 	BindNull func(*Stmt, int) int
 
-	BindText func(_ *Stmt,
-		_ int, _ VString, n int, _ func(*Void)) int
+	BindText func(
+		_ *Stmt, _ int, _ VString, n int, _ func(*Void)) int
 
-	BindValue func(
-		*Stmt, int, *Value) int
+	BindValue func(*Stmt, int, *Value) int
 
 	BindZeroblob func(_ *Stmt, _ int, n int) int
 
@@ -323,8 +313,7 @@ var (
 
 	BindParameterName func(*Stmt, int) string
 
-	BindParameterIndex func(
-		_ *Stmt, name string) int
+	BindParameterIndex func(_ *Stmt, name string) int
 
 	ClearBindings func(*Stmt) int
 
@@ -358,8 +347,7 @@ var (
 
 	ColumnType func(_ *Stmt, col int) int
 
-	ColumnValue func(
-		_ *Stmt, col int) *Value
+	ColumnValue func(_ *Stmt, col int) *Value
 
 	Finalize func(stmt *Stmt) int
 
@@ -371,17 +359,11 @@ var (
 		step func(*Context, int, **Value),
 		final func(*Context)) int
 
-	CreateFunctionV2 func(
-		db *Sqlite3,
-		functionName string,
-		args int,
-		textRep int,
-		app *Void,
-		fnc func(
-			*Context, int, **Value),
+	CreateFunctionV2 func(db *Sqlite3, functionName string,
+		args, textRep int, app *Void,
+		fnc func(*Context, int, **Value),
 		step func(*Context, int, **Value),
-		final func(*Context),
-		destroy func(*Void)) int
+		final func(*Context), destroy func(*Void)) int
 
 	AggregateCount func(*Context) int
 
@@ -415,8 +397,7 @@ var (
 
 	ValueNumericType func(*Value) int
 
-	AggregateContext func(
-		_ *Context, nBytes int) *Void
+	AggregateContext func(_ *Context, nBytes int) *Void
 
 	UserData func(*Context) *Void
 
@@ -623,26 +604,16 @@ var (
 
 	VtabOnConflict func(*Sqlite3) int
 
-	RtreeGeometryCallback func(
-		db *Sqlite3,
-		geom string,
+	RtreeGeometryCallback func(db *Sqlite3, geom string,
 		geomfunc func(
-			_ *RtreeGeometry,
-			n int,
-			a *float64,
-			res *int) int,
+			_ *RtreeGeometry, n int, a *float64, res *int) int,
 		context *Void) int
 
-	BackupInit func(
-		dest *Sqlite3, destName string,
+	BackupInit func(dest *Sqlite3, destName string,
 		source *Sqlite3, sourceName string) *Backup
 
-	BlobOpen func(
-		_ *Sqlite3,
-		db, table, column string,
-		row int64,
-		flags int,
-		blob **Blob) int
+	BlobOpen func(_ *Sqlite3, db, table, column string,
+		row int64, flags int, blob **Blob) int
 )
 
 const (
