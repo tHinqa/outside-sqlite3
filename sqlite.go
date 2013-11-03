@@ -32,7 +32,6 @@ type (
 	Stmt         struct{}
 	Value        struct{}
 	UnsignedChar uint8
-	VaList       uintptr
 	Private      struct{}
 	Void         struct{}
 
@@ -222,11 +221,11 @@ var (
 
 	Mprintf func(*Char, ...VArg) string
 
-	Vmprintf func(*Char, VaList) string
+	Vmprintf func(*Char, VAList) string
 
 	Snprintf func(int, string, string, ...VArg) string
 
-	Vsnprintf func(int, string, string, VaList) string
+	Vsnprintf func(int, string, string, VAList) string
 
 	Malloc func(int) *Void
 
